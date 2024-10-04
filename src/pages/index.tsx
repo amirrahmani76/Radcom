@@ -9,14 +9,17 @@ const Home = () => {
   const [m, setM] = useState<number>(0);
   const [n, setN] = useState<number>(0);
   const [matrix, setMatrix] = useState<number[][] | null>(null);
+  const [sortedMatrix, setSortedMatrix] = useState<number[][] | null>(null);
 
   const handleGenerate = () => {
     if (m % 2 === 0 || n % 2 === 0 || m < 3 || n < 3) {
       toast.error("ابعاد باید فرد و بزرگتر از 3 باشند.");
       setMatrix(null);
+      setSortedMatrix(null); 
     } else {
       const emptyMatrix = Array.from({ length: m }, () => Array(n).fill(0));
       setMatrix(emptyMatrix);
+      setSortedMatrix(null);
     }
   };
 
@@ -26,11 +29,11 @@ const Home = () => {
         <p dir="rtl" className="sm:text-lg">
           لطفاً مقادیر زیر را تکمیل نمائید.
         </p>
-        <Input label="تعداد سطرها" value={m} onChange={(e) => setM(Number(e.target.value))} />
-        <Input label="تعداد ستون‌ها" value={n} onChange={(e) => setN(Number(e.target.value))} />
+        <Input label="تعداد سطرها" value={m} onChange={(e: any) => setM(Number(e.target.value))} />
+        <Input label="تعداد ستون‌ها" value={n} onChange={(e: any) => setN(Number(e.target.value))} />
         <Button label="تولید جدول" onClick={handleGenerate} />
       </div>
-      {matrix && <Table matrix={matrix} setMatrix={setMatrix} />}
+      {matrix && <Table matrix={matrix} setMatrix={setMatrix} sortedMatrix={sortedMatrix} setSortedMatrix={setSortedMatrix} />}
       <ToastContainer
         position="bottom-right"
         autoClose={5000}

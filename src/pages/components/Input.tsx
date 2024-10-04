@@ -15,7 +15,8 @@ const Input: React.FC<InputProps> = ({ label, value, onChange }) => {
       <input
         type="number"
         className="border-transparent border-b-2 border-b-orange-500 bg-transparent focus:border-b-green-500 focus:ring-transparent focus:border-transparent text-sm sm:text-base"
-        value={value}
+        // value={value}
+        placeholder="0"
         onChange={onChange}
       />
     </div>

@@ -5,10 +5,11 @@ import Pagination from "./Pagination";
 interface TableProps {
   matrix: number[][];
   setMatrix: React.Dispatch<React.SetStateAction<number[][] | null>>;
+  sortedMatrix: number[][] | null;
+  setSortedMatrix: React.Dispatch<React.SetStateAction<number[][] | null>>;
 }
 
-const Table: React.FC<TableProps> = ({ matrix, setMatrix }) => {
-  const [sortedMatrix, setSortedMatrix] = useState<number[][] | null>(null);
+const Table: React.FC<TableProps> = ({ matrix, setMatrix, sortedMatrix, setSortedMatrix }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentSortedPage, setCurrentSortedPage] = useState(1);
   const rowsPerPage = 5;
@@ -29,7 +30,7 @@ const Table: React.FC<TableProps> = ({ matrix, setMatrix }) => {
       return index % 2 === 0 ? [...row].sort((a, b) => a - b) : [...row].sort((a, b) => b - a);
     });
     setSortedMatrix(newMatrix);
-    setCurrentSortedPage(1); // Reset to the first page when sorted
+    setCurrentSortedPage(1);
   };
 
   const handleNextPage = () => {
@@ -46,6 +47,10 @@ const Table: React.FC<TableProps> = ({ matrix, setMatrix }) => {
 
   const handlePreviousSortedPage = () => {
     if (currentSortedPage > 1) setCurrentSortedPage((prev) => prev - 1);
+  };
+
+  const handleFocus = (e: any) => {
+    e.target.select();
   };
 
   return (
@@ -71,8 +76,9 @@ const Table: React.FC<TableProps> = ({ matrix, setMatrix }) => {
                         <input
                           type="number"
                           value={cell}
+                          onFocus={handleFocus}
                           onChange={(e) => handleInputChange((currentPage - 1) * rowsPerPage + rowIndex, colIndex, Number(e.target.value))}
-                          className="w-20 sm:w-28 whitespace-nowrap p-1 text-center focus:border-green-500 focus:ring-0 border-transparent text-sm"
+                          className="w-20 sm:w-28 border-transparent text-center border-b-2 border-b-gray-300 bg-transparent focus:border-b-green-500 focus:ring-transparent focus:border-transparent text-sm sm:text-base"
                         />
                       </td>
                     ))}
